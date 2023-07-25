@@ -1,0 +1,19 @@
+# IntelliJ IDEA files
+.idea/
+
+# Scala-specific build files
+target/
+*.iml
+*.idea_modules
+out/
+project/target/
+project/project/
+.idea_modules/
+.idea/workspace.xml
+
+# Mac-specific files
+.DS_Store
+
+# Logs
+*.log
+logs/
