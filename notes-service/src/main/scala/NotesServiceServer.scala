@@ -1,5 +1,6 @@
 import cats.effect.{Async, IO, IOApp, Resource}
 import cats.syntax.all._
+import context.ExecutionContextInitializer
 import infrastructure.{Controller, HelloWorldController}
 import org.http4s.HttpRoutes
 import org.http4s.blaze.server.BlazeServerBuilder
@@ -12,14 +13,14 @@ import scala.concurrent.ExecutionContext
 
 object NotesServiceServer extends IOApp.Simple {
   def run: IO[Unit] = {
-    val ec = ExecutionContext.global
+    val httpEc = ExecutionContextInitializer.createHttpExecutionContext()
+    val webSocketEc = ExecutionContextInitializer.createWebSocketExecutionContext()
 
     val controller = new HelloWorldController[IO]
-
     val httpRoutes = toRoutes(controller)
     val webSocketRoutes = toWebSocketRoutes(controller)
 
-    runServers(ec, httpRoutes, webSocketRoutes)
+    runServers(httpEc, webSocketEc)(httpRoutes, webSocketRoutes)
   }
 
   private def createHttpServer[F[_] : Async](ec: ExecutionContext, routes: HttpRoutes[F]): Resource[F, Server] =
@@ -36,24 +37,23 @@ object NotesServiceServer extends IOApp.Simple {
       .withHttpWebSocketApp(wsb => Router("/" -> webSocketRoutes(wsb)).orNotFound)
       .resource
 
-  private def runServers[F[_] : Async](ec: ExecutionContext, httpRoutes: HttpRoutes[F], webSocketRoutes: WebSocketBuilder2[F] => HttpRoutes[F]): F[Unit] = {
-    val httpServerResource = createHttpServer(ec, httpRoutes)
-    val webSocketServerResource = createWebSocketServer(ec, webSocketRoutes)
+  private def runServers[F[_] : Async](httpEc: ExecutionContext, webSocketEc: ExecutionContext)(httpRoutes: HttpRoutes[F], webSocketRoutes: WebSocketBuilder2[F] => HttpRoutes[F]): F[Unit] = {
+    val httpServerResource = createHttpServer(httpEc, httpRoutes)
+    val webSocketServerResource = createWebSocketServer(webSocketEc, webSocketRoutes)
 
-    (httpServerResource, webSocketServerResource).tupled.use { case (_, _) =>
-      Async[F].never
-    }
+    (httpServerResource, webSocketServerResource).tupled.use { _ => Async[F].never }
   }
 
   private def toRoutes[F[_] : Async](controllers: Controller[F]*): HttpRoutes[F] = {
     val endpoints = controllers.flatMap(_.endpoints).toList
-
     val endpointsWithSwagger = endpoints ++ SwaggerInterpreter().fromServerEndpoints(endpoints, "Notes service", "1.0")
+
     Http4sServerInterpreter().toRoutes(endpointsWithSwagger)
   }
 
   private def toWebSocketRoutes[F[_] : Async](controllers: Controller[F]*): WebSocketBuilder2[F] => HttpRoutes[F] = {
     val endpoints = controllers.flatMap(_.webSocketEndpoints).toList
+
     Http4sServerInterpreter().toWebSocketRoutes(endpoints)
   }
 }
