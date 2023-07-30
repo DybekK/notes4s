@@ -18,7 +18,7 @@
             element: element,
             editorProps: {
                 attributes: {
-                    class: 'focus:outline-none p-6 h-full w-full'
+                    class: 'h-full p-6'
                 },
             },
             extensions: [StarterKit],
@@ -31,4 +31,4 @@
     })
 </script>
 
-<div bind:this={element}/>
+<div class="h-full w-full" bind:this={element}/>
