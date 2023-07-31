@@ -4,7 +4,7 @@
     import {notesStore} from "$lib/notes.store";
     import {editorStore} from "$lib/editor.store";
 
-    const {notesState} = notesStore
+    const {store: notesState} = notesStore
     const {setEditorContext} = editorStore
 
     let {notes, activeNoteId} = $notesState

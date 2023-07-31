@@ -3,7 +3,7 @@
     import {LetterBoldOutline, LetterItalicOutline, LetterUnderlineOutline} from 'flowbite-svelte-icons'
     import {editorStore} from "$lib/editor.store";
 
-    const {editor} = editorStore
+    const {store: editor} = editorStore
 
     const size = 'xs'
 

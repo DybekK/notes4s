@@ -12,7 +12,7 @@ function createEditorStore() {
 	}
 
 	return {
-		editor,
+		store: editor,
 		setEditorContext
 	}
 }

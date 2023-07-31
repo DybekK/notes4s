@@ -38,7 +38,7 @@ function createNotesStore() {
 	}
 
 	return {
-		notesState,
+		store: notesState,
 		updateNote
 	}
 }
