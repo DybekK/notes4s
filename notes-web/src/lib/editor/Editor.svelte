@@ -3,6 +3,9 @@
 
     import {onMount} from 'svelte'
     import StarterKit from '@tiptap/starter-kit'
+    import Image from '@tiptap/extension-image'
+    import Typography from '@tiptap/extension-typography'
+    import Underline from '@tiptap/extension-underline'
     import {Editor} from "@tiptap/core";
     import {editorStore} from '../editor.store'
     import {notesStore} from '../notes.store'
@@ -21,7 +24,12 @@
                     class: 'h-full focus:outline-none p-6 dark:bg-gray-800 dark:text-gray-200'
                 },
             },
-            extensions: [StarterKit],
+            extensions: [
+                Image,
+                Typography,
+                Underline,
+                StarterKit
+            ],
             content: notes.find(note => note.id === activeNoteId)?.content,
             onUpdate: () => updateNote(activeNoteId, $editor.getHTML()),
             onTransaction: () => {

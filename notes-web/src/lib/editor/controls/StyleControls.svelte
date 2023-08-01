@@ -5,18 +5,27 @@
 
     const {store: editor} = editorStore
 
-    const size = 'xs'
-
-    const focus = () => $editor.chain().focus();
-    const icons = [
-        {icon: LetterBoldOutline, handler: () => focus().toggleBold().run()},
-        {icon: LetterItalicOutline, handler: () => focus().toggleItalic().run()},
-        {icon: LetterUnderlineOutline, handler: () => focus().toggleUnderline().run()}
+    $: icons = [
+        {
+            icon: LetterBoldOutline,
+            isActive: () => $editor?.isActive('bold'),
+            handler: () => $editor.chain().focus().toggleBold().run()
+        },
+        {
+            icon: LetterItalicOutline,
+            isActive: () => $editor?.isActive('italic'),
+            handler: () => $editor.chain().focus().toggleItalic().run()
+        },
+        {
+            icon: LetterUnderlineOutline,
+            isActive: () => $editor?.isActive('underline'),
+            handler: () => $editor.chain().focus().toggleUnderline().run()
+        } //todo: do underline in css
     ]
 </script>
 
-{#each icons as {icon, handler}}
-    <Button on:click={handler} color="light" outline={true} size="xs">
-        <svelte:component this={icon} size={size}/>
+{#each icons as {icon, isActive, handler}}
+    <Button on:click={handler} color="light" outline={isActive()} size="xs">
+        <svelte:component this={icon} size="xs"/>
     </Button>
 {/each}

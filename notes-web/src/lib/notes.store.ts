@@ -11,7 +11,7 @@ function fixtureNotes(): Note[] {
 		{
 			id: 1,
 			title: 'Note 1',
-			content: `# Note 1`
+			content: `test: <img src="https://source.unsplash.com/8xznAGy4HcY/800x400" />`
 		},
 		{
 			id: 2,

@@ -4,7 +4,7 @@
     import Controls from "$lib/editor/controls/Controls.svelte";
 </script>
 
-<Navbar class="z-20 border-b top-0 left-0 right-0 backdrop-filter backdrop-blur-3xl sticky bg-transparent dark:bg-transparent">
+<Navbar class="z-20 top-0 left-0 right-0 sticky border-b bg-white/70 dark:bg-gray-800/50 backdrop-blur-md">
     <NavBrand class="z-10" href="/">
         <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             Notes4s ✍️

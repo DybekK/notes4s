@@ -10,7 +10,6 @@
 
 <style lang="postcss">
     .content-container {
-        /*overflow: auto;*/
         height: calc(100vh - 54px);
         @apply flex w-full;
     }
