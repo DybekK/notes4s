@@ -1,0 +1,70 @@
+.ProseMirror {
+    > * + * {
+        margin-top: 0.75em;
+    }
+
+    & h1,
+    & h2,
+    & h3 {
+        line-height: 1.1;
+    }
+
+    & h1 {
+        @apply text-xl font-black;
+    }
+
+    & h2 {
+        @apply text-lg font-bold;
+    }
+
+    & h3 {
+        @apply text-base font-semibold;
+    }
+
+    & p {
+        @apply text-base;
+    }
+
+    & ul,
+    & ol {
+        padding: 0 1rem;
+    }
+
+    & ul {
+        @apply list-disc pl-6 text-base;
+    }
+
+    & ol {
+        @apply list-decimal pl-6 text-base;
+    }
+
+    & u {
+        @apply underline
+    }
+
+    & code {
+        background-color: rgba(#616161, 0.1);
+        color: #616161;
+    }
+
+    & pre {
+        background: #0d0d0d;
+        color: #fff;
+        font-family: 'JetBrainsMono', monospace;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+    }
+
+    & pre code {
+        color: inherit;
+        padding: 0;
+        background: none;
+        font-size: 0.8rem;
+    }
+
+    & hr {
+        border: none;
+        border-top: 2px solid rgba(#0d0d0d, 0.1);
+        margin: 2rem 0;
+    }
+}
